@@ -1,17 +1,41 @@
 from flask import Flask, request, jsonify
 from sklearn.preprocessing import StandardScaler
+from flasgger import Swagger
 import pandas as pd
 import joblib
 import numpy as np
 
 
 app = Flask(__name__)
+swagger = Swagger(app)
 
 
-@app.route('/predict', methods=['POST', 'GET'])
+@app.route('/predict', methods=['GET'])
 #  Creating a predict fucntion
 def predict():
-    # Getting the data
+    """This is an example endpoint for predicting Iris species
+    --- 
+    parameters:
+        - name: s_length
+        - in: query
+        - type: number
+        - required: true
+
+        - name: s_width
+        - in: query
+        - type: number
+        - required: true
+
+        - name: p_length
+        - in: query
+        - type: number
+        - required: true
+
+        - name: p_width
+        - in: query
+        - type: number
+        - required: true
+    """
     s_length = request.args.get('s_length')
     s_width = request.args.get('s_width')
     p_lenght = request.args.get('p_length')
@@ -29,8 +53,16 @@ def predict():
     return str(pred)
 
 
-@app.route('/predict_file', methods=['POST', 'GET'])
+@app.route('/predict_file', methods=['POST'])
 def predict_file():
+    """This is an example endpoint that accepts a file as input and returns a list of predictions
+    ---
+    parameters:
+        - name: test.csv
+        - in: formData
+        - type: file
+        - required: true
+    """
     # Get the file
     file = pd.read_csv(request.files.get('test.csv'), header=None)
 
@@ -43,7 +75,7 @@ def predict_file():
     pred = model.predict(file)
 
     # return the result
-    return jsonify({'prediction': pred.tolist()})
+    return {'prediction': pred.tolist()}
 
 
 if __name__ == '__main__':
