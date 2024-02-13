@@ -50,7 +50,7 @@ def predict():
 
     # predicting the request
     pred = model.predict(data)
-    return str(pred)
+    return jsonify({'pred': pred})
 
 
 @app.route('/predict_file', methods=['POST'])
