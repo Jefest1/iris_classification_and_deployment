@@ -10,31 +10,31 @@ app = Flask(__name__)
 swagger = Swagger(app)
 
 
-@app.route('/predict', methods=['GET'])
+@app.route('/predict')
 #  Creating a predict fucntion
 def predict():
     """This is an example endpoint for predicting Iris species
-    --- 
+    ---
     parameters:
         - name: s_length
-        - in: query
-        - type: number
-        - required: true
+          in: query
+          type: number
+          required: true
 
         - name: s_width
-        - in: query
-        - type: number
-        - required: true
+          in: query
+          type: number
+          required: true
 
         - name: p_length
-        - in: query
-        - type: number
-        - required: true
+          in: query
+          type: number
+          required: true
 
         - name: p_width
-        - in: query
-        - type: number
-        - required: true
+          in: query
+          type: number
+          required: true
     """
     s_length = request.args.get('s_length')
     s_width = request.args.get('s_width')
@@ -59,9 +59,9 @@ def predict_file():
     ---
     parameters:
         - name: test.csv
-        - in: formData
-        - type: file
-        - required: true
+          in: formData
+          type: file
+          required: true
     """
     # Get the file
     file = pd.read_csv(request.files.get('test.csv'), header=None)
