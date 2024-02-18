@@ -10,7 +10,7 @@ app = Flask(__name__)
 swagger = Swagger(app)
 
 
-@app.route('/predict')
+@app.route('/predict', methods=['POST'])
 #  Creating a predict fucntion
 def predict():
     """This is an example endpoint for predicting Iris species
