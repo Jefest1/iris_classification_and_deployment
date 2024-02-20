@@ -46,7 +46,7 @@ def predict():
     data = np.array([[s_length, s_width, p_lenght, p_width]])
 
     # Loading the model
-    model = joblib.load('model.pkl')
+    model = joblib.load('./scripts/model.pkl')
 
     # predicting the request
     pred = model.predict(data)
@@ -71,7 +71,7 @@ def predict_file():
     file = scaler.fit_transform(file)
 
     # predict the types of flowers
-    model = joblib.load('model.pkl')
+    model = joblib.load('./scripts/model.pkl')
     pred = model.predict(file)
 
     # return the result
