@@ -10,7 +10,7 @@ app = Flask(__name__)
 swagger = Swagger(app)
 
 
-@app.route('/predict', methods=['GET', 'POST'])
+@app.route('/predict', methods=['POST'])
 #  Creating a predict fucntion
 def predict():
     """This is an example endpoint for predicting Iris species
@@ -50,10 +50,10 @@ def predict():
 
     # predicting the request
     pred = model.predict(data)
-    return jsonify({'pred': pred})
+    return 'pred :', pred
 
 
-@app.route('/predict_file', methods=['GET', 'POST'])
+@app.route('/predict_file', methods=['POST'])
 def predict_file():
     """This is an example endpoint that accepts a file as input and returns a list of predictions
     ---
@@ -75,8 +75,8 @@ def predict_file():
     pred = model.predict(file)
 
     # return the result
-    return {'prediction': pred.tolist()}
+    return 'prediction :', pred.tolist()
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0')
