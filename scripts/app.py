@@ -6,11 +6,14 @@ import joblib
 import numpy as np
 
 
+# Loading the model
+model = joblib.load('scripts/model.pkl')
+
 app = Flask(__name__)
 swagger = Swagger(app)
 
 
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['POST', 'GET'])
 #  Creating a predict fucntion
 def predict():
     """This is an example endpoint for predicting Iris species
@@ -38,19 +41,15 @@ def predict():
     """
     s_length = request.args.get('s_length')
     s_width = request.args.get('s_width')
-    p_lenght = request.args.get('p_length')
+    p_length = request.args.get('p_length')
     p_width = request.args.get('p_width')
 
-    # Scaler the data
-    scaler = StandardScaler()
-    data = np.array([[s_length, s_width, p_lenght, p_width]])
-
-    # Loading the model
-    model = joblib.load('scripts/model.pkl')
+    # convert collected data to an array
+    data = np.array([[s_length, s_width, p_length, p_width]])
 
     # predicting the request
     pred = model.predict(data)
-    return 'pred :', pred
+    return 'Prediction :{}'.format(pred)
 
 
 @app.route('/predict_file', methods=['POST'])
@@ -71,11 +70,10 @@ def predict_file():
     file = scaler.fit_transform(file)
 
     # predict the types of flowers
-    model = joblib.load('scripts/model.pkl')
     pred = model.predict(file)
 
-    # return the result
-    return 'prediction :', pred.tolist()
+    # return the result as a list
+    return 'prediction : {}'.format(jsonify(pred.tolist()))
 
 
 if __name__ == '__main__':
